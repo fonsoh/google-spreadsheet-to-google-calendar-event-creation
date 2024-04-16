@@ -1,0 +1,43 @@
+function createCalendarEvent() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Form Responses 1');
+  var lastRow = sheet.getLastRow();
+
+  // Loop through each row in the sheet
+  for (var i = 2; i <= lastRow; i++) {
+    var name = sheet.getRange(i, 2).getValue(); //Column B
+    var idNumber = sheet.getRange(i, 3).getValue(); // Column C
+    var matricNumber = sheet.getRange(i, 4).getValue(); // Column D
+    var phoneNumber = sheet.getRange(i, 5).getValue(); // Column E
+    var email = sheet.getRange(i, 6).getValue(); // Column F
+    var faculty = sheet.getRange(i, 7).getValue(); // Column G
+    var programN = sheet.getRange(i, 8).getValue(); // Column H
+    var mentorName = sheet.getRange(i, 9).getValue(); // Column I
+    var problemFaced = sheet.getRange(i,10).getValue(); //Column J
+     var probEx = sheet.getRange(i,11).getValue(); //Column K
+    var dateValue = sheet.getRange(i, 12).getValue(); // Column L
+    var timeValue = sheet.getRange(i, 13).getValue();// Column M
+   
+
+    // Parse the date and time values
+    var date = new Date(dateValue);
+    var time = new Date(dateValue.getFullYear(), dateValue.getMonth(), dateValue.getDate(), timeValue.getHours(), timeValue.getMinutes());
+    var startTime = new Date(time.getTime());
+    var endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Add 1 hour to the start time
+
+    var eventTitle = 'Sesi Mentoring & Coaching Keusahawanan';
+    var eventDescription = 'Nama: ' + name + '\n' +
+                           'No. IC/Passport: ' + idNumber + '\n' +
+                           'No. Matrik: ' + matricNumber + '\n' +
+                           'No. Telefon: ' + phoneNumber + '\n' +
+                           'Fakulti: ' + faculty + '\n' +
+                           'Program: ' + programN + '\n' +
+                           'Email: ' + email + '\n' +
+                           'Mentor: ' + mentorName + '\n' +
+                           'Masalah:' + problemFaced + '\n' +
+                           'Masalah lain: ' + probEx ;
+
+    var calendarId = 'primary';
+    var calendar = CalendarApp.getCalendarById(calendarId);
+    var event = calendar.createEvent(eventTitle, startTime, endTime, {description: eventDescription});
+  }
+}
